@@ -254,6 +254,10 @@ namespace plugins
     /// \param[in] _topic Scene topic
     public: void SetSceneTopic(const std::string &_topic);
 
+    /// \brief Signal emitted when a mouse press event takes place.
+    ///        This allows users to hook to this event externally.
+    signals: void MousePressEventSignal(ignition::common::MouseEvent _e);
+
     /// \brief Slot called when thread is ready to be started
     public Q_SLOTS: void Ready();
 

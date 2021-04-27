@@ -57,6 +57,8 @@
 #include "ignition/gui/GuiEvents.hh"
 #include "ignition/gui/MainWindow.hh"
 
+Q_DECLARE_METATYPE(ignition::common::MouseEvent)
+
 namespace ignition
 {
 namespace gui
@@ -1353,7 +1355,9 @@ void RenderWindowItem::SetSceneTopic(const std::string &_topic)
 Scene3D::Scene3D()
   : Plugin(), dataPtr(new Scene3DPrivate)
 {
+  this->setObjectName("Scene3D");
   qmlRegisterType<RenderWindowItem>("RenderWindow", 1, 0, "RenderWindow");
+  qRegisterMetaType<ignition::common::MouseEvent>();
 }
 
 
@@ -1461,6 +1465,8 @@ void RenderWindowItem::mousePressEvent(QMouseEvent *_e)
   auto event = convert(*_e);
   event.SetPressPos(event.Pos());
   this->dataPtr->mouseEvent = event;
+
+  emit MousePressEventSignal(event);
 
   this->dataPtr->renderThread->ignRenderer.NewMouseEvent(
       this->dataPtr->mouseEvent);
